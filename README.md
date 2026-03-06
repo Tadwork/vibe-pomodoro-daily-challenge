@@ -8,6 +8,10 @@ A simple Node.js + Tailwind Pomodoro timer app with focus and break cycles.
 You can click the Focus or Break cards to edit minutes inline. Clicking away saves only valid values.
 The app plays a configurable sound at the end of each session and stores preferences (focus, break, sound) in localStorage.
 
+## Live App
+
+GitHub Pages deployment: https://tadwork.github.io/vibe-pomodoro-daily-challenge/
+
 ## Screenshot
 
 ![Pomodoro timer app screenshot](./docs/app-screenshot.png)

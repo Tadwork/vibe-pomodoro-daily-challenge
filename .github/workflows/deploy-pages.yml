@@ -28,6 +28,11 @@ jobs:
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
+      - name: Apply cache buster
+        run: |
+          CACHE_BUSTER="${GITHUB_SHA::8}"
+          sed -i "s/__CACHE_BUSTER__/${CACHE_BUSTER}/g" ./public/index.html
+
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@v3
         with:

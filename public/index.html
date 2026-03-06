@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Daily Challenge Pomodoro</title>
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./styles.css?v=__CACHE_BUSTER__" />
   </head>
   <body class="min-h-screen flex items-center justify-center p-6">
     <main class="w-full max-w-xl bg-white/80 backdrop-blur-md border border-orange-200 rounded-3xl p-8">
@@ -36,11 +36,11 @@
         <div class="grid grid-cols-2 gap-3 text-sm w-full max-w-xs">
           <button id="focusCard" class="rounded-2xl bg-orange-100 p-3 text-center cursor-pointer hover:bg-orange-200 transition-colors" type="button">
             <p class="font-semibold text-orange-900">Focus</p>
-            <p id="focusValue" class="text-xl font-bold text-orange-700">25m</p>
+            <p id="focusValue" class="h-10 flex items-center justify-center text-xl font-bold text-orange-700">25m</p>
           </button>
           <button id="breakCard" class="rounded-2xl bg-teal-100 p-3 text-center cursor-pointer hover:bg-teal-200 transition-colors" type="button">
             <p class="font-semibold text-teal-900">Break</p>
-            <p id="breakValue" class="text-xl font-bold text-teal-700">5m</p>
+            <p id="breakValue" class="h-10 flex items-center justify-center text-xl font-bold text-teal-700">5m</p>
           </button>
         </div>
 
@@ -48,7 +48,7 @@
       </section>
     </main>
 
-    <script src="./timer-utils.js"></script>
-    <script src="./app.js"></script>
+    <script src="./timer-utils.js?v=__CACHE_BUSTER__"></script>
+    <script src="./app.js?v=__CACHE_BUSTER__"></script>
   </body>
 </html>

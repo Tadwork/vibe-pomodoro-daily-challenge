@@ -181,7 +181,7 @@ function startInlineEdit(kind) {
   input.min = String(min);
   input.max = String(max);
   input.value = String(currentValue);
-  input.className = "w-20 rounded-md border border-slate-400 bg-white px-1 py-0.5 text-center text-xl font-bold text-slate-900";
+  input.className = "h-10 w-24 rounded-md border border-slate-400 bg-white px-1 py-0 text-center text-xl font-bold leading-none text-slate-900";
   valueEl.appendChild(input);
   input.focus();
   input.select();
