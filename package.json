@@ -1,0 +1,24 @@
+{
+  "name": "vibe-pomodoro-daily-challenge",
+  "version": "1.0.0",
+  "description": "Daily challenge Pomodoro timer app",
+  "main": "server.js",
+  "scripts": {
+    "build:css": "npx @tailwindcss/cli -i ./src/input.css -o ./public/styles.css --minify",
+    "watch:css": "npx @tailwindcss/cli -i ./src/input.css -o ./public/styles.css --watch",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "pomodoro",
+    "timer",
+    "tailwind"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.13",
+    "autoprefixer": "^10.4.27",
+    "postcss": "^8.5.8",
+    "tailwindcss": "^4.2.1"
+  }
+}

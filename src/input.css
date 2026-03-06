@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+:root {
+  --ink: #1f2937;
+  --paper: #fffaf0;
+  --sun: #f59e0b;
+  --mint: #0f766e;
+  --clay: #9a3412;
+}
+
+body {
+  font-family: "Trebuchet MS", "Avenir Next", Arial, sans-serif;
+  background:
+    radial-gradient(circle at 20% 0%, #ffedd5 0%, transparent 45%),
+    radial-gradient(circle at 100% 80%, #ccfbf1 0%, transparent 40%),
+    var(--paper);
+  color: var(--ink);
+}
+
+.timer-ring {
+  box-shadow: 0 25px 50px -12px rgba(154, 52, 18, 0.25);
+}
