@@ -8,7 +8,7 @@ module.exports = defineConfig({
       provider: "v8",
       reporter: ["text", "json-summary", "lcov"],
       reportsDirectory: "coverage",
-      include: ["lib/**/*.js"]
+      include: ["lib/**/*.js", "public/timer-utils.js"]
     }
   }
 });
