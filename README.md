@@ -14,6 +14,7 @@ The app plays a configurable sound at the end of each session and stores prefere
 - Session-end alert sound (about 2 seconds)
 - Sound preset selection (`Chime`, `Bell`, `Digital`)
 - Adjustable alert volume (`0%-100%`)
+- Wall-clock timer sync to reduce drift in background tabs
 - Persistent preferences via localStorage
 
 ## Live App

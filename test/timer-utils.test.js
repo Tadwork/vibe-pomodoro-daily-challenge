@@ -1,6 +1,7 @@
 const {
   parseValidMinutes,
   formatMinutesLabel,
+  secondsUntil,
   normalizeSoundPreset,
   normalizeVolume,
   loadPreferences,
@@ -32,6 +33,16 @@ describe("parseValidMinutes", () => {
 describe("formatMinutesLabel", () => {
   it("formats minute labels for cards", () => {
     expect(formatMinutesLabel(15)).toBe("15m");
+  });
+});
+
+describe("secondsUntil", () => {
+  it("returns remaining seconds based on wall clock time", () => {
+    expect(secondsUntil(10_000, 7_300)).toBe(3);
+  });
+
+  it("never returns a negative value", () => {
+    expect(secondsUntil(10_000, 10_001)).toBe(0);
   });
 });
 

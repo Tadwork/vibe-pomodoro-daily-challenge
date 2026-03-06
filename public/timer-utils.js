@@ -17,6 +17,11 @@
     return `${minutes}m`;
   }
 
+  function secondsUntil(deadlineMs, nowMs) {
+    if (!Number.isFinite(deadlineMs) || !Number.isFinite(nowMs)) return 0;
+    return Math.max(0, Math.ceil((deadlineMs - nowMs) / 1000));
+  }
+
   function normalizeSoundPreset(rawValue, fallback) {
     return SOUND_PRESETS.includes(rawValue) ? rawValue : fallback;
   }
@@ -65,6 +70,7 @@
   const api = {
     parseValidMinutes,
     formatMinutesLabel,
+    secondsUntil,
     normalizeSoundPreset,
     normalizeVolume,
     loadPreferences,

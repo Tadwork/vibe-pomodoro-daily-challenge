@@ -41,6 +41,7 @@ let isFocus = true;
 let timerId = null;
 let editingKind = null;
 let audioContext = null;
+let phaseEndsAt = null;
 
 function formatTime(seconds) {
   const mins = String(Math.floor(seconds / 60)).padStart(2, "0");
@@ -146,16 +147,26 @@ function render() {
 function swapPhase() {
   isFocus = !isFocus;
   secondsLeft = isFocus ? focusMinutes * 60 : breakMinutes * 60;
+  if (isRunning) {
+    phaseEndsAt = Date.now() + secondsLeft * 1000;
+  }
   render();
 }
 
-function tick() {
-  secondsLeft -= 1;
+function syncTimer() {
+  if (!isRunning || phaseEndsAt === null) return;
 
-  if (secondsLeft < 0) {
+  const now = Date.now();
+  const nextSecondsLeft = PomodoroUtils.secondsUntil(phaseEndsAt, now);
+
+  if (now >= phaseEndsAt) {
     playSessionSound();
     swapPhase();
     return;
+  }
+
+  if (nextSecondsLeft !== secondsLeft) {
+    secondsLeft = nextSecondsLeft;
   }
 
   render();
@@ -165,14 +176,17 @@ function startTimer() {
   if (timerId) return;
   unlockAudio();
   isRunning = true;
-  timerId = setInterval(tick, 1000);
+  phaseEndsAt = Date.now() + secondsLeft * 1000;
+  timerId = setInterval(syncTimer, 250);
   render();
 }
 
 function pauseTimer() {
+  syncTimer();
   isRunning = false;
   clearInterval(timerId);
   timerId = null;
+  phaseEndsAt = null;
   render();
 }
 
@@ -287,6 +301,14 @@ document.addEventListener("click", (event) => {
     const input = breakCard.querySelector("input");
     if (input) input.blur();
   }
+});
+
+document.addEventListener("visibilitychange", () => {
+  syncTimer();
+});
+
+window.addEventListener("focus", () => {
+  syncTimer();
 });
 
 render();
