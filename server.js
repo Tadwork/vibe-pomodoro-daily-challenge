@@ -1,6 +1,7 @@
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
+const { resolvePublicFilePath } = require("./lib/static-path");
 
 const port = process.env.PORT || 3000;
 const publicDir = path.join(__dirname, "public");
@@ -14,11 +15,9 @@ const mimeTypes = {
 };
 
 const server = http.createServer((req, res) => {
-  const safePath = req.url === "/" ? "/index.html" : req.url;
-  const filePath = path.resolve(publicDir, `.${safePath}`);
-  const relativePath = path.relative(publicDir, filePath);
+  const { filePath, isForbidden } = resolvePublicFilePath(publicDir, req.url || "/");
 
-  if (relativePath.startsWith("..") || path.isAbsolute(relativePath)) {
+  if (isForbidden) {
     res.writeHead(403);
     res.end("Forbidden");
     return;
