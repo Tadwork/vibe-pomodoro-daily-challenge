@@ -16,6 +16,12 @@ describe("resolvePublicFilePath", () => {
     expect(result.filePath).toBe(path.join(publicDir, "styles.css"));
   });
 
+  it("ignores query strings in file paths", () => {
+    const result = resolvePublicFilePath(publicDir, "/styles.css?v=abc123");
+    expect(result.isForbidden).toBe(false);
+    expect(result.filePath).toBe(path.join(publicDir, "styles.css"));
+  });
+
   it("blocks traversal attempts escaping the public directory", () => {
     const result = resolvePublicFilePath(publicDir, "/../publicity/secret.txt");
     expect(result.isForbidden).toBe(true);

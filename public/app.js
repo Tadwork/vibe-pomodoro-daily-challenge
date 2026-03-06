@@ -84,12 +84,16 @@ function playSessionSound() {
 
   const frequencies = getSoundFrequencies();
   const now = ctx.currentTime;
+  const totalDurationSeconds = 2;
+  const patternSteps = 8;
+  const stepDuration = totalDurationSeconds / patternSteps;
 
-  frequencies.forEach((frequency, index) => {
+  Array.from({ length: patternSteps }).forEach((_, index) => {
+    const frequency = frequencies[index % frequencies.length];
     const oscillator = ctx.createOscillator();
     const gain = ctx.createGain();
-    const startTime = now + index * 0.14;
-    const endTime = startTime + 0.11;
+    const startTime = now + index * stepDuration;
+    const endTime = startTime + stepDuration * 0.85;
 
     oscillator.type = soundPreset === "digital" ? "square" : "sine";
     oscillator.frequency.setValueAtTime(frequency, startTime);
