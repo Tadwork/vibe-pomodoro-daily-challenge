@@ -4,6 +4,8 @@ const startPauseBtn = document.getElementById("startPause");
 const resetBtn = document.getElementById("reset");
 const skipBtn = document.getElementById("skip");
 const soundSelect = document.getElementById("soundSelect");
+const volumeRange = document.getElementById("volumeRange");
+const volumeValueEl = document.getElementById("volumeValue");
 const focusCard = document.getElementById("focusCard");
 const breakCard = document.getElementById("breakCard");
 const focusValueEl = document.getElementById("focusValue");
@@ -13,7 +15,8 @@ const settingsHintEl = document.getElementById("settingsHint");
 const defaultPreferences = {
   focusMinutes: 25,
   breakMinutes: 5,
-  soundPreset: "chime"
+  soundPreset: "chime",
+  soundVolume: 70
 };
 
 function getSafeStorage() {
@@ -30,6 +33,7 @@ const storedPreferences = PomodoroUtils.loadPreferences(storage, defaultPreferen
 let focusMinutes = storedPreferences.focusMinutes;
 let breakMinutes = storedPreferences.breakMinutes;
 let soundPreset = storedPreferences.soundPreset;
+let soundVolume = storedPreferences.soundVolume;
 
 let secondsLeft = focusMinutes * 60;
 let isRunning = false;
@@ -48,7 +52,8 @@ function persistPreferences() {
   PomodoroUtils.savePreferences(storage, {
     focusMinutes,
     breakMinutes,
-    soundPreset
+    soundPreset,
+    soundVolume
   });
 }
 
@@ -98,8 +103,9 @@ function playSessionSound() {
     oscillator.type = soundPreset === "digital" ? "square" : "sine";
     oscillator.frequency.setValueAtTime(frequency, startTime);
 
+    const targetGain = Math.max(0.0001, 0.18 * (soundVolume / 100));
     gain.gain.setValueAtTime(0.0001, startTime);
-    gain.gain.exponentialRampToValueAtTime(0.18, startTime + 0.02);
+    gain.gain.exponentialRampToValueAtTime(targetGain, startTime + 0.02);
     gain.gain.exponentialRampToValueAtTime(0.001, endTime);
 
     oscillator.connect(gain);
@@ -117,6 +123,8 @@ function render() {
   phaseEl.textContent = isFocus ? "Focus Session" : "Break Session";
   startPauseBtn.textContent = isRunning ? "Pause" : "Start";
   soundSelect.value = soundPreset;
+  volumeRange.value = String(soundVolume);
+  volumeValueEl.textContent = `${soundVolume}%`;
   settingsHintEl.textContent = canEditDurations
     ? "Click Focus or Break to edit directly. Click away to save valid values."
     : "Pause timer to edit durations. Settings are locked while running.";
@@ -245,6 +253,12 @@ skipBtn.addEventListener("click", () => {
 soundSelect.addEventListener("change", () => {
   unlockAudio();
   soundPreset = PomodoroUtils.normalizeSoundPreset(soundSelect.value, soundPreset);
+  persistPreferences();
+  render();
+});
+
+volumeRange.addEventListener("input", () => {
+  soundVolume = PomodoroUtils.normalizeVolume(volumeRange.value, soundVolume);
   persistPreferences();
   render();
 });

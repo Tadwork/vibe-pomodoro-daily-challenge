@@ -2,6 +2,7 @@ const {
   parseValidMinutes,
   formatMinutesLabel,
   normalizeSoundPreset,
+  normalizeVolume,
   loadPreferences,
   savePreferences
 } = require("../public/timer-utils");
@@ -44,6 +45,24 @@ describe("normalizeSoundPreset", () => {
   });
 });
 
+describe("normalizeVolume", () => {
+  it("keeps valid values in range", () => {
+    expect(normalizeVolume("55", 70)).toBe(55);
+  });
+
+  it("falls back for values below range", () => {
+    expect(normalizeVolume("-10", 70)).toBe(70);
+  });
+
+  it("falls back for values above range", () => {
+    expect(normalizeVolume("150", 70)).toBe(70);
+  });
+
+  it("falls back for invalid values", () => {
+    expect(normalizeVolume("loud", 70)).toBe(70);
+  });
+});
+
 describe("preferences persistence", () => {
   function createMockStorage() {
     const store = {};
@@ -62,7 +81,8 @@ describe("preferences persistence", () => {
     const saved = savePreferences(storage, {
       focusMinutes: 30,
       breakMinutes: 10,
-      soundPreset: "digital"
+      soundPreset: "digital",
+      soundVolume: 65
     });
 
     expect(saved).toBe(true);
@@ -73,19 +93,22 @@ describe("preferences persistence", () => {
     savePreferences(storage, {
       focusMinutes: 40,
       breakMinutes: 8,
-      soundPreset: "bell"
+      soundPreset: "bell",
+      soundVolume: 35
     });
 
     const loaded = loadPreferences(storage, {
       focusMinutes: 25,
       breakMinutes: 5,
-      soundPreset: "chime"
+      soundPreset: "chime",
+      soundVolume: 70
     });
 
     expect(loaded).toEqual({
       focusMinutes: 40,
       breakMinutes: 8,
-      soundPreset: "bell"
+      soundPreset: "bell",
+      soundVolume: 35
     });
   });
 
@@ -94,13 +117,15 @@ describe("preferences persistence", () => {
     savePreferences(storage, {
       focusMinutes: 0,
       breakMinutes: 99,
-      soundPreset: "bad"
+      soundPreset: "bad",
+      soundVolume: 999
     });
 
     const defaults = {
       focusMinutes: 25,
       breakMinutes: 5,
-      soundPreset: "chime"
+      soundPreset: "chime",
+      soundVolume: 70
     };
 
     const loaded = loadPreferences(storage, defaults);

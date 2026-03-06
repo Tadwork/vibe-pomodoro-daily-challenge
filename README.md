@@ -6,7 +6,15 @@
 A simple Node.js + Tailwind Pomodoro timer app with focus and break cycles.
 
 You can click the Focus or Break cards to edit minutes inline. Clicking away saves only valid values.
-The app plays a configurable sound at the end of each session and stores preferences (focus, break, sound) in localStorage.
+The app plays a configurable sound at the end of each session and stores preferences (focus, break, sound, volume) in localStorage.
+
+## Features
+
+- Inline editing for focus and break durations
+- Session-end alert sound (about 2 seconds)
+- Sound preset selection (`Chime`, `Bell`, `Digital`)
+- Adjustable alert volume (`0%-100%`)
+- Persistent preferences via localStorage
 
 ## Live App
 

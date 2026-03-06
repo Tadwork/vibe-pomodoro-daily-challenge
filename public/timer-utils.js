@@ -21,6 +21,13 @@
     return SOUND_PRESETS.includes(rawValue) ? rawValue : fallback;
   }
 
+  function normalizeVolume(rawValue, fallback) {
+    const parsed = Number.parseInt(rawValue, 10);
+    if (!Number.isFinite(parsed)) return fallback;
+    if (parsed < 0 || parsed > 100) return fallback;
+    return parsed;
+  }
+
   function loadPreferences(storage, defaults) {
     if (!storage) return defaults;
 
@@ -31,11 +38,13 @@
       const focusMinutes = parseValidMinutes(parsed.focusMinutes, 1, 120) ?? defaults.focusMinutes;
       const breakMinutes = parseValidMinutes(parsed.breakMinutes, 1, 60) ?? defaults.breakMinutes;
       const soundPreset = normalizeSoundPreset(parsed.soundPreset, defaults.soundPreset);
+      const soundVolume = normalizeVolume(parsed.soundVolume, defaults.soundVolume);
 
       return {
         focusMinutes,
         breakMinutes,
-        soundPreset
+        soundPreset,
+        soundVolume
       };
     } catch (_error) {
       return defaults;
@@ -57,6 +66,7 @@
     parseValidMinutes,
     formatMinutesLabel,
     normalizeSoundPreset,
+    normalizeVolume,
     loadPreferences,
     savePreferences,
     SOUND_PRESETS
