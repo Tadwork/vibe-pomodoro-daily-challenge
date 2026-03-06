@@ -15,9 +15,10 @@ const mimeTypes = {
 
 const server = http.createServer((req, res) => {
   const safePath = req.url === "/" ? "/index.html" : req.url;
-  const filePath = path.join(publicDir, safePath);
+  const filePath = path.resolve(publicDir, `.${safePath}`);
+  const relativePath = path.relative(publicDir, filePath);
 
-  if (!filePath.startsWith(publicDir)) {
+  if (relativePath.startsWith("..") || path.isAbsolute(relativePath)) {
     res.writeHead(403);
     res.end("Forbidden");
     return;
